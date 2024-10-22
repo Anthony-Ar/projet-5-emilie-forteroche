@@ -1,6 +1,6 @@
 <?php 
 
-class ArticleController 
+class ArticleController
 {
     /**
      * Affiche la page d'accueil.
@@ -26,10 +26,14 @@ class ArticleController
 
         $articleManager = new ArticleManager();
         $article = $articleManager->getArticleById($id);
-        
+
         if (!$article) {
             throw new Exception("L'article demandé n'existe pas.");
         }
+
+        $view = new ArticleView(['idArticle' => $id, 'ip' => $_SERVER['REMOTE_ADDR']]);
+        $viewManager = new ArticleViewManager();
+        $viewManager->addView($view);
 
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
