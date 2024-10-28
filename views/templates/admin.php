@@ -4,6 +4,7 @@
      * Et un formulaire pour ajouter un article. 
      */
 ?>
+<a href="index.php?action=adminArticle" class="menu_admin_link">Liste des articles en ligne</a>
 
 <h2>Edition des articles</h2>
 

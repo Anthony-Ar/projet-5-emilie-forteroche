@@ -25,6 +25,38 @@ class AdminController {
         ]);
     }
 
+    public function showAdminArticles() : void
+    {
+        // On vérifie que l'utilisateur est connecté.
+        $this->checkIfUserIsConnected();
+
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->getAllArticles();
+
+        $data = [];
+
+        // On associe, dans un tableau, les articles et les données nécessaires
+        foreach ($articles as $article) {
+            $commentManager = new CommentManager();
+            $comment = $commentManager->countAllCommentsByArticleId($article->getId());
+
+            $viewManager = new ArticleViewManager();
+            $view = $viewManager->countView($article->getId());
+
+            $data[] = [
+                'article' => $article,
+                'date' => Utils::convertDateToFrenchFormat($article->getDateCreation()),
+                'comment' => $comment,
+                'view' => $view
+            ];
+        }
+
+        $view = new View("Administration");
+        $view->render("adminArticle", [
+            'data' => $data
+        ]);
+    }
+
     /**
      * Vérifie que l'utilisateur est connecté.
      * @return void

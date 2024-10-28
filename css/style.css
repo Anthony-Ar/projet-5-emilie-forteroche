@@ -345,8 +345,46 @@ footer {
     bottom: 0;
     display: flex;
     justify-content: center;
-    width: 100%;;
+    width: 100%;
     padding: 20px;
     color: white;
     background-color: var(--headerColor);
+}
+
+/**
+ * Tableau des articles
+ */
+table {
+    border-collapse: collapse;
+    border: 2px solid var(--backgroundColor);
+}
+
+th, td {
+    padding: 1rem;
+    border: 2px solid var(--backgroundColor);
+}
+
+tr:nth-child(even), tr.head {
+    background: var(--headerColor);
+}
+
+th {
+    text-align: left;
+}
+
+/**
+ * Liens et boutons administration
+ */
+a.table_link {
+    color: var(--quoteColor)
+}
+
+a.table_link:hover {
+    text-decoration: underline;
+}
+
+a.menu_admin_link {
+    color: white;
+    background: var(--headerColor);
+    padding: 1rem 2rem;
 }
