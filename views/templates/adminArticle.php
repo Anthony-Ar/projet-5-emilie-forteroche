@@ -20,7 +20,11 @@
                 <td><?= $article['date'] ?></td>
                 <td><?= $article['comment'] ?></td>
                 <td><?= $article['view']['total_unique_view'] ?> (total : <?= $article['view']['total_view'] ?>)</td>
-                <td><a href="#" class="table_link">Afficher les commentaires</a></td>
+                <td>
+                    <a href="index.php?action=showArticle&id=<?= $article['article']->getId() ?>" class="table_link">
+                        Accéder à l'article
+                    </a>
+                </td>
             </tr>
             <?php } ?>
         </tbody>

@@ -24,6 +24,13 @@ class ArticleController
         // Récupération de l'id de l'article demandé.
         $id = Utils::request("id", -1);
 
+        $commentManager = new CommentManager();
+
+        $deleteComment = Utils::request("delete", -1);
+        if ($deleteComment !== -1) {
+            $commentManager->deleteComment($deleteComment);
+        }
+
         $articleManager = new ArticleManager();
         $article = $articleManager->getArticleById($id);
 
@@ -35,7 +42,6 @@ class ArticleController
         $viewManager = new ArticleViewManager();
         $viewManager->addView($view);
 
-        $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
         $view = new View($article->getTitle());

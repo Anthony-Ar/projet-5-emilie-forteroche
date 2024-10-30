@@ -379,7 +379,11 @@ a.table_link {
     color: var(--quoteColor)
 }
 
-a.table_link:hover {
+a.admin_link {
+    color: var(--titleColor)
+}
+
+a.table_link:hover, a.admin_link:hover {
     text-decoration: underline;
 }
 
