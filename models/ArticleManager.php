@@ -3,22 +3,45 @@
 /**
  * Classe qui gère les articles.
  */
-class ArticleManager extends AbstractEntityManager 
+class ArticleManager extends AbstractEntityManager
 {
     /**
      * Récupère tous les articles.
-     * @return array : un tableau d'objets Article.
+     * @param array|null $order
+     * @return array
      */
-    public function getAllArticles() : array
+    public function getAllArticles(?array $order = null) : array
     {
-        $sql = "SELECT * FROM article";
-        $result = $this->db->query($sql);
-        $articles = [];
+       $sql = "SELECT 
+                    a.*,
+                    COUNT(av.id) AS views,
+                    COUNT(DISTINCT av.ip) AS unique_views,
+                    COUNT(c.id) AS comments
+                FROM 
+                    article a
+                LEFT JOIN 
+                    articleview av ON a.id = av.article_id
+                LEFT JOIN 
+                    comment c ON a.id = c.id_article
+                GROUP BY 
+                    a.id";
 
-        while ($article = $result->fetch()) {
-            $articles[] = new Article($article);
-        }
-        return $articles;
+       if ($order != null) {
+           $sql .= " ORDER BY {$order[0]} {$order[1]}";
+       }
+
+       $result = $this->db->query($sql);
+       $articles = [];
+
+       while ($article = $result->fetch()) {
+           $articles[] = [
+               'article' => new Article($article),
+               'views' => $article['views'],
+               'unique_views' => $article['unique_views'],
+               'comments' => $article['comments']
+           ];
+       }
+       return $articles;
     }
     
     /**

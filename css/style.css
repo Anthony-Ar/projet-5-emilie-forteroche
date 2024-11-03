@@ -376,7 +376,7 @@ th {
  * Liens et boutons administration
  */
 a.table_link {
-    color: var(--quoteColor)
+    color: black;
 }
 
 a.admin_link {

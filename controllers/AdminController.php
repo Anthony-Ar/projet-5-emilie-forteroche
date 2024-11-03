@@ -25,35 +25,28 @@ class AdminController {
         ]);
     }
 
+    /**
+     * Affiche la liste des articles en ligne
+     * @return void
+     */
     public function showAdminArticles() : void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
 
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->getAllArticles();
+        $sort = Utils::request("sort");
 
-        $data = [];
-
-        // On associe, dans un tableau, les articles et les données nécessaires
-        foreach ($articles as $article) {
-            $commentManager = new CommentManager();
-            $comment = $commentManager->countAllCommentsByArticleId($article->getId());
-
-            $viewManager = new ArticleViewManager();
-            $view = $viewManager->countView($article->getId());
-
-            $data[] = [
-                'article' => $article,
-                'date' => Utils::convertDateToFrenchFormat($article->getDateCreation()),
-                'comment' => $comment,
-                'view' => $view
-            ];
+        if ($sort !== null) {
+            $exploded = explode(":", htmlspecialchars($sort));
         }
+
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->getAllArticles($sort !== null ? $exploded : null);
 
         $view = new View("Administration");
         $view->render("adminArticle", [
-            'data' => $data
+            'articles' => $articles,
+            'sort' => $sort !== null ? $exploded : null
         ]);
     }
 

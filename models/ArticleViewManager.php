@@ -19,19 +19,4 @@ class ArticleViewManager extends AbstractEntityManager
         ]);
         return $result->rowCount() > 0;
     }
-
-    /**
-     * Compte le nombre de vues d'un article.
-     * @param int $articleId
-     * @return array
-     */
-    public function countView(int $articleId) : array
-    {
-        $sql = "SELECT COUNT(*) AS total_view, COUNT(DISTINCT ip) AS total_unique_view
-            FROM articleview
-            WHERE article_id = :article_id";
-        $result = $this->db->query($sql, ['article_id' => $articleId]);
-
-        return $result->fetch(PDO::FETCH_ASSOC);
-    }
 }

@@ -6,22 +6,33 @@
     <table>
         <thead>
         <tr class="head">
-            <th scope="col">Titre de l'article</th>
-            <th scope="col">Date de publication</th>
-            <th scope="col">Nombre de commentaires</th>
-            <th scope="col">Nombre de vues</th>
-            <th scope="col">Action</th>
+            <th scope="col">
+                <?= SortFormat::generate($sort, "Titre de l'article", "title") ?>
+            </th>
+            <th scope="col">
+                <?= SortFormat::generate($sort, "Date de publication", "date_creation") ?>
+            </th>
+            <th scope="col">
+                <?= SortFormat::generate($sort, "Nombre de commentaires", "comments") ?>
+            </th>
+            <th scope="col">
+                <?= SortFormat::generate($sort, "Nombre de vues", "views") ?>
+            </th>
+            <th scope="col">
+                Action
+            </th>
         </tr>
         </thead>
         <tbody>
-            <?php foreach ($data as $article) { ?>
+            <?php foreach ($articles as $article) { ?>
             <tr>
                 <td><?= $article['article']->getTitle() ?></td>
-                <td><?= $article['date'] ?></td>
-                <td><?= $article['comment'] ?></td>
-                <td><?= $article['view']['total_unique_view'] ?> (total : <?= $article['view']['total_view'] ?>)</td>
+                <td><?= Utils::convertDateToFrenchFormat($article['article']->getDateCreation()) ?></td>
+                <td><?= $article['comments'] ?></td>
+                <td><?= $article['unique_views'] ?> (total : <?= $article['views'] ?>)</td>
                 <td>
                     <a href="index.php?action=showArticle&id=<?= $article['article']->getId() ?>" class="table_link">
+                        <i class="fa-solid fa-eye"></i>
                         Accéder à l'article
                     </a>
                 </td>

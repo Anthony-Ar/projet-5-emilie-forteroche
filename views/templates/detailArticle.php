@@ -35,8 +35,10 @@
                     echo '<a
                             href="index.php?action=showArticle&id='.$article->getId().'&delete='.$comment->getId().'"
                             class="admin_link"
+                            '.Utils::askConfirmation('Confirmez la suppression du commentaire').'
                             >
-                            Supprimer le commentaire
+                            <i class="fa-solid fa-trash"></i>
+                            Supprimer ce commentaire
                           </a>';
                 }
 
