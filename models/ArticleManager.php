@@ -16,18 +16,18 @@ class ArticleManager extends AbstractEntityManager
                     a.*,
                     COUNT(av.id) AS views,
                     COUNT(DISTINCT av.ip) AS unique_views,
-                    COUNT(c.id) AS comments
+                    (SELECT COUNT(*) FROM `comment` c WHERE c.id_article = a.id ) AS comments
                 FROM 
                     article a
                 LEFT JOIN 
                     articleview av ON a.id = av.article_id
-                LEFT JOIN 
-                    comment c ON a.id = c.id_article
                 GROUP BY 
                     a.id";
 
        if ($order != null) {
-           $sql .= " ORDER BY {$order[0]} {$order[1]}";
+           $column = htmlspecialchars($order[0]);
+           $type = htmlspecialchars($order[1]);
+           $sql .= " ORDER BY {$column} {$type}";
        }
 
        $result = $this->db->query($sql);
